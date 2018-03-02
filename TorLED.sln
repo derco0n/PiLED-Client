@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 15 for Windows Desktop
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TorLED", "TorLED\TorLED.csproj", "{EF3445EB-BE13-4F23-822E-FD0121B3B8C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF3445EB-BE13-4F23-822E-FD0121B3B8C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF3445EB-BE13-4F23-822E-FD0121B3B8C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF3445EB-BE13-4F23-822E-FD0121B3B8C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF3445EB-BE13-4F23-822E-FD0121B3B8C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57567888-EC7E-4268-9076-226D55B4EDFE}
+	EndGlobalSection
+EndGlobal
