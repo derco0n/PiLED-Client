@@ -10,7 +10,7 @@ namespace TorLED
     class Program
     {
 
-        private static String Versioninfo = "Version: 0.2, 02.03.2018";
+        private static String Versioninfo = "Version: 0.3, 02.03.2018";
 
         private static int returncode = -1;
         private static bool jobdone = false;
@@ -119,6 +119,21 @@ namespace TorLED
             }
             else
             {
+
+                foreach(char c in args[2]) //Check if RGB-Code is build by 0's and 1's
+                {
+                    if (c=='1' || c=='0')
+                    {
+                        //everything is fine 
+                    }
+                    else
+                    {//current char ist not 1 or 0
+                        Console.WriteLine("\r\nUngültiger RGB-Code\r\n");
+                        printHelp();
+                        return 5;
+                    }
+                }
+
                 try
                 {
                    _duration = int.Parse(args[3]);
@@ -134,6 +149,9 @@ namespace TorLED
                         return 3;
                     }
                     _host = args[0];
+
+
+
                     _ledcode = args[2];
                 }
                 catch
