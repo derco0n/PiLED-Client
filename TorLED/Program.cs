@@ -142,6 +142,11 @@ namespace TorLED
                         Console.WriteLine("\r\nUngültige Dauer\r\n");
                         return 3;
                     }
+                    if (_duration < 0)
+                    {
+                        Console.WriteLine("\r\nDauer negativ. Schalte LEDs nicht automatisch wieder ab.\r\n");
+                    }
+
                     _port = int.Parse(args[1]);
                     if (_port<=0 || _port > 65535)
                     {
