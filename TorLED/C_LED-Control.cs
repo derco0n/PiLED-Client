@@ -90,9 +90,15 @@ namespace TorLED
                         Thread.Sleep(this._duration);//Wait
                         this.tcpclient.SendData("000\r\n"); //Set LEDS Off
                     }
+                    else
+                    {//Exit directly
+                        Thread.Sleep(50); //Wait 50ms
+                        this.tcpclient.SendData("exit\r\n"); //Verbindung trennen
+
+                    }
                 }
                 else if (this._okcount == 2)
-                {
+                {//Duration must be above 
                     Thread.Sleep(50); //Wait 50ms
                     this.tcpclient.SendData("exit\r\n"); //Verbindung trennen
                 }
@@ -101,6 +107,7 @@ namespace TorLED
             {
                 if (this.Jobdone != null)
                 {
+
                 this.Jobdone(this, this._okshouldbe - this._okcount); //0 wenn Erfolg                 
                    
                 }
@@ -151,6 +158,13 @@ namespace TorLED
             this._ledcode = LEDCODE;
             this._port = Port;
             this._duration = Duration;
+
+            if (this._duration < 0)
+            {
+                //Wenn die Dauer negativ ist, sollen die LEDs nicht wieder abgeschaltet werden.
+                //Wir benötigen daher ein Empfangs-OK weniger vom Server
+                this._okshouldbe = this._okshouldbe-1;
+            }
 
 
             this.tcpclient = new Co0nUtilZ.C_NetClient(this._host, this._port);
