@@ -10,7 +10,7 @@ namespace TorLED
     class Program
     {
 
-        private static String Versioninfo = "Version: 0.3, 02.03.2018";
+        private static String Versioninfo = "Version: 0.4, 14.03.2018";
 
         private static int returncode = -1;
         private static bool jobdone = false;
@@ -69,7 +69,7 @@ namespace TorLED
             Console.WriteLine("IP:\tIP-Adresse des Steuergeräts");
             Console.WriteLine("PORT:\tTCP-Port des Steuergeräts");
             Console.WriteLine("LEDCODE:\tSteuercode Rot,Grün,Blau");
-            Console.WriteLine("DAUER:\tLeuchtdauer des Steuercodes in Millisekunden (Minimum 250ms)");
+            Console.WriteLine("DAUER:\tLeuchtdauer des Steuercodes in Millisekunden (Minimum 250ms). Wenn negativ: Dauerleuchten");
             Console.WriteLine("");
             Console.WriteLine("Beispiel: torledcontrol.exe 192.168.14.124 60666 100 1500 3000");
             Console.WriteLine("Erklärung: Dies versucht für 3000ms eine Verbindung zu 192.168.14.124:60666 aufzubauen. Bei Erfolg werden die LEDs anschließend für 1,5 Sekunden auf Rot gesetzt.");
@@ -137,7 +137,7 @@ namespace TorLED
                 try
                 {
                    _duration = int.Parse(args[3]);
-                    if (_duration < 250)
+                    if (_duration>=0 && _duration < 250)
                     {
                         Console.WriteLine("\r\nUngültige Dauer\r\n");
                         return 3;

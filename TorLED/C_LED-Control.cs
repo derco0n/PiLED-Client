@@ -85,12 +85,15 @@ namespace TorLED
                 this._okcount += 1;
                 if (this._okcount == 1)
                 { //Schritt zwei
-                    Thread.Sleep(this._duration);//Wait
-                    this.tcpclient.SendData("000\r\n"); //Set LEDS Off
+                    if (this._duration > 0)
+                    {//Set LEDs back to normal if duration is > 0. if it is set below zero, LEDs will stay on forever
+                        Thread.Sleep(this._duration);//Wait
+                        this.tcpclient.SendData("000\r\n"); //Set LEDS Off
+                    }
                 }
                 else if (this._okcount == 2)
                 {
-                    Thread.Sleep(150); //Wait 150ms
+                    Thread.Sleep(50); //Wait 50ms
                     this.tcpclient.SendData("exit\r\n"); //Verbindung trennen
                 }
             }
