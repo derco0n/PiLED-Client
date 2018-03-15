@@ -10,7 +10,7 @@ namespace TorLED
     class Program
     {
 
-        private static String Versioninfo = "Version: 0.4, 14.03.2018";
+        private static String Versioninfo = "Version: 0.41, 15.03.2018";
 
         private static int returncode = -1;
         private static bool jobdone = false;
@@ -54,8 +54,8 @@ namespace TorLED
         static private void printHelp()
         {
             Console.WriteLine("\r\n");
-            Console.WriteLine("torledcontrol.exe by D. Marx");
-            Console.WriteLine("============================");
+            Console.WriteLine("torled.exe by D. Marx");
+            Console.WriteLine("=====================");
             Console.WriteLine(Versioninfo);
             Console.WriteLine("");
             Console.WriteLine("Dieses Programm steuert die LED-Beleuchtung an einem Verladetor.");
@@ -64,14 +64,14 @@ namespace TorLED
             Console.WriteLine("Aufruf:");
             Console.WriteLine("#######");
             Console.WriteLine("");
-            Console.WriteLine("torledcontrol.exe IP PORT LEDCODE DAUER [TIMEOUT]");
+            Console.WriteLine("torled.exe IP PORT LEDCODE DAUER [TIMEOUT]");
             Console.WriteLine("");
             Console.WriteLine("IP:\tIP-Adresse des Steuergeräts");
             Console.WriteLine("PORT:\tTCP-Port des Steuergeräts");
             Console.WriteLine("LEDCODE:\tSteuercode Rot,Grün,Blau");
             Console.WriteLine("DAUER:\tLeuchtdauer des Steuercodes in Millisekunden (Minimum 250ms). Wenn negativ: Dauerleuchten");
             Console.WriteLine("");
-            Console.WriteLine("Beispiel: torledcontrol.exe 192.168.14.124 60666 100 1500 3000");
+            Console.WriteLine("Beispiel: torled.exe 192.168.14.124 60666 100 1500 3000");
             Console.WriteLine("Erklärung: Dies versucht für 3000ms eine Verbindung zu 192.168.14.124:60666 aufzubauen. Bei Erfolg werden die LEDs anschließend für 1,5 Sekunden auf Rot gesetzt.");
             Console.WriteLine("");
             Console.WriteLine("LED-Codes:");
@@ -100,9 +100,10 @@ namespace TorLED
 
         static int Main(string[] args)
         {
+        //Main:
+        int timeout = -1;
 
-
-        String _host, _ledcode;
+            String _host, _ledcode;
         int _port, _duration;
 
             C_LED_Control _LED_Control;
@@ -164,9 +165,10 @@ namespace TorLED
                     printHelp();
                     return 3;
                 }
-                
 
-                //Main:
+
+                
+            
                 try
                 {
                     _LED_Control = new C_LED_Control(_host, _ledcode, _port, _duration); //Neues Objekt erzeugen...
@@ -176,7 +178,7 @@ namespace TorLED
                     _LED_Control.otherMessagereceived += Handle_MsgReceived;
                     _LED_Control.Jobdone += Handle_Jobdone;
                     _LED_Control.Disconnected += Handle_Disconnected;
-                    int timeout = -1;
+                    
 
                     if (args.Count() > 4)
                     {
@@ -206,10 +208,21 @@ namespace TorLED
                 }
 
             }
-            
+
+            DateTime now = DateTime.Now;
+            TimeSpan maxwait = new TimeSpan(0, 0, 
+                (int)(
+                Math.Round((double)
+                    ((timeout+1000) / 1000),0)
+                    )
+                    );
+            DateTime endtime = now + maxwait;
             while (!jobdone)
             {//Warten bis der Job (in welcher Form auch immer) beendet wurde...
-
+                if (DateTime.Now > endtime)
+                {
+                    break; //Abbrechen wenn es zu lange dauert um Endlosschleifen zu vermeiden
+                }
             }
             return returncode; //Programm mit dem entsprechenden Rückgabecode beenden
         }
